@@ -6,41 +6,42 @@ import jakarta.validation.constraints.NotBlank;
 public class Usuario { // NO es una entidad, solo un modelo de datos
 
     @NotBlank(message = "El nombre es obligatorio")
-    private String nombre;
+    private String name;
 
     @Email(message = "El correo debe ser válido")
     @NotBlank(message = "El correo es obligatorio")
-    private String correo;
+    private String email;
 
     @NotBlank(message = "La contraseña es obligatoria")
-    private String contraseña;
+    private String password;
 
     // Constructor vacío (obligatorio para Spring)
     public Usuario() {
     }
 
-    // Getters y Setters
-    public String getNombre() {
-        return nombre;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getCorreo() {
-        return correo;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getContraseña() {
-        return contraseña;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+ 
 }

@@ -12,16 +12,16 @@ import com.mrec2.petguardian_backend.models.Usuario;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/users")
 @CrossOrigin(origins="*")
 public class UsuarioController {
 
-	@PostMapping("/registro")
+	@PostMapping("/register")
 	public ResponseEntity<String> registrarUsuario (@Valid @RequestBody Usuario usuario ){
 		 System.out.println("📩 Nuevo usuario registrado:");
-	        System.out.println("Nombre: " + usuario.getNombre());
-	        System.out.println("Correo: " + usuario.getCorreo());
-	        System.out.println("Contraseña: " + usuario.getContraseña());
+	        System.out.println("Nombre: " + usuario.getName());
+	        System.out.println("Correo: " + usuario.getEmail());
+	        System.out.println("Contraseña: " + usuario.getPassword());
 	        return ResponseEntity.ok("Datos recibidos correctamente");
 	}
 	
