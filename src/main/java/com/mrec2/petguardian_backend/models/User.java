@@ -1,9 +1,12 @@
 package com.mrec2.petguardian_backend.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class Usuario { // NO es una entidad, solo un modelo de datos
+@Document(collection = "data")
+public class User { // NO es una entidad, solo un modelo de datos
 
     @NotBlank(message = "El nombre es obligatorio")
     private String name;
@@ -16,7 +19,7 @@ public class Usuario { // NO es una entidad, solo un modelo de datos
     private String password;
 
     // Constructor vacío (obligatorio para Spring)
-    public Usuario() {
+    public User() {
     }
 
 	public String getName() {
