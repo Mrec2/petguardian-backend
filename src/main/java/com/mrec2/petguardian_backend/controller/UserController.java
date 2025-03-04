@@ -28,10 +28,10 @@ public class UserController {
 
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser (@Valid @RequestBody User usuario ){
-		 System.out.println(" Nuevo usuario registrado:");
-	        System.out.println("Nombre: " + usuario.getName());
-	        System.out.println("Correo: " + usuario.getEmail());
-	        System.out.println("Contraseña: " + usuario.getPassword());
+		//  System.out.println(" Nuevo usuario registrado:");
+	    //     System.out.println("Nombre: " + usuario.getName());
+	    //     System.out.println("Correo: " + usuario.getEmail());
+	    //     System.out.println("Contraseña: " + usuario.getPassword());
 
 	        userService.createUser(usuario);
 
