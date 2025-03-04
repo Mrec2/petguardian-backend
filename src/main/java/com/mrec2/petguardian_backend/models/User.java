@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Document(collection = "data")
-public class User { // NO es una entidad, solo un modelo de datos
+public class User { 
 
     @NotBlank(message = "El nombre es obligatorio")
     private String name;
@@ -18,7 +18,7 @@ public class User { // NO es una entidad, solo un modelo de datos
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
 
-    // Constructor vacío (obligatorio para Spring)
+    
     public User() {
     }
 

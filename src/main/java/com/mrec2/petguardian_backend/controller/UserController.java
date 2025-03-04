@@ -1,5 +1,7 @@
 package com.mrec2.petguardian_backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +14,9 @@ import com.mrec2.petguardian_backend.models.User;
 import com.mrec2.petguardian_backend.service.UserService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,8 +27,8 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/register")
-	public ResponseEntity<String> registrarUsuario (@Valid @RequestBody User usuario ){
-		 System.out.println("📩 Nuevo usuario registrado:");
+	public ResponseEntity<String> registerUser (@Valid @RequestBody User usuario ){
+		 System.out.println(" Nuevo usuario registrado:");
 	        System.out.println("Nombre: " + usuario.getName());
 	        System.out.println("Correo: " + usuario.getEmail());
 	        System.out.println("Contraseña: " + usuario.getPassword());
@@ -33,5 +38,11 @@ public class UserController {
 
 	        return ResponseEntity.ok("Datos recibidos correctamente");
 	}
+
+	@GetMapping("/users")
+	public ResponseEntity<List<User>> getUsers() {
+		return ResponseEntity.ok(userService.getAllUsers());
+	}
+	
 	
 }
