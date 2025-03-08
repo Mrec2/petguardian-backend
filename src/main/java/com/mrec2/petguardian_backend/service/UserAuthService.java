@@ -26,12 +26,10 @@ public class UserAuthService {
         Optional<UserAuth> userOptional = userAuthRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             UserAuth user = userOptional.get();
-            // Verificar la contraseña encriptada
             if (passwordEncoder.matches(password, user.getPassword())) {
-                // Si la contraseña es correcta, generar un token JWT
                 return jwtUtil.generateToken(email);
             }
         }
-        return null; // Si las credenciales no son válidas, devolver null
+        return null;
     }
 }

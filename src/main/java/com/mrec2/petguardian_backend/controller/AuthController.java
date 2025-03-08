@@ -23,7 +23,7 @@ public class AuthController {
         String token = userAuthService.login(email, password);
 
         if (token != null) {
-            return ResponseEntity.ok(Map.of("token", token)); // Devuelve el token en JSON
+            return ResponseEntity.ok(Map.of("token", token));
         } else {
             return ResponseEntity.status(401).body("Credenciales incorrectas");
         }
