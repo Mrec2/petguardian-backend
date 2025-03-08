@@ -16,14 +16,14 @@ public class AuthController {
     private UserAuthService userAuthService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
 
-        boolean isAuthenticated = userAuthService.login(email, password);
+        String token = userAuthService.login(email, password);
 
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Login exitoso");
+        if (token != null) {
+            return ResponseEntity.ok(Map.of("token", token)); // Devuelve el token en JSON
         } else {
             return ResponseEntity.status(401).body("Credenciales incorrectas");
         }

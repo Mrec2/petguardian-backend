@@ -3,8 +3,11 @@ package com.mrec2.petguardian_backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.mrec2.petguardian_backend.models.UserAuth;
 import com.mrec2.petguardian_backend.repository.UserAuthRepository;
+import com.mrec2.petguardian_backend.security.JwtUtil;
+
 import java.util.Optional;
 
 @Service
@@ -14,15 +17,21 @@ public class UserAuthService {
     private UserAuthRepository userAuthRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder; 
+    private BCryptPasswordEncoder passwordEncoder;
 
-    public boolean login(String email, String password) {
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    public String login(String email, String password) {
         Optional<UserAuth> userOptional = userAuthRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             UserAuth user = userOptional.get();
-            
-            return passwordEncoder.matches(password, user.getPassword());
+            // Verificar la contraseña encriptada
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                // Si la contraseña es correcta, generar un token JWT
+                return jwtUtil.generateToken(email);
+            }
         }
-        return false;
+        return null; // Si las credenciales no son válidas, devolver null
     }
 }
