@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
-        return new JwtAuthFilter(jwtUtil, userDetailsService); // ✅ Usar la interfaz correcta
+        return new JwtAuthFilter(jwtUtil, userDetailsService); // 
     }
 
     @Bean
