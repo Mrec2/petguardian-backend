@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.mrec2.petguardian_backend.models.User;
 import com.mrec2.petguardian_backend.security.JwtUtil;
 import com.mrec2.petguardian_backend.service.UserAuthService;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -18,24 +20,32 @@ public class AuthController {
     private UserAuthService userAuthService;
 
     @Autowired
-    private JwtUtil jwtUtil; // Agregamos JwtUtil para manejar tokens
+    private JwtUtil jwtUtil; 
 
-    // 🔹 Login y generación de token
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
 
+        
         String token = userAuthService.login(email, password);
 
         if (token != null) {
-            return ResponseEntity.ok(Map.of("token", token));
-        } else {
-            return ResponseEntity.status(401).body("Credenciales incorrectas");
+            
+            Optional<User> userOptional = userAuthService.getUserByEmail(email);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                return ResponseEntity.ok(Map.of(
+                    "token", token,
+                    "name", user.getName() // ✅ Ahora enviamos el nombre desde User
+                ));
+            }
         }
+
+        return ResponseEntity.status(401).body("Credenciales incorrectas");
     }
 
-    // 🔹 Validar el Token (Desde el frontend)
     @PostMapping("/validate")
     public ResponseEntity<?> validateToken(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -47,10 +57,16 @@ public class AuthController {
             String email = jwtUtil.extractEmail(token);
 
             if (jwtUtil.validateToken(token, email)) {
-                return ResponseEntity.ok(Map.of("valid", true, "email", email));
-            } else {
-                return ResponseEntity.status(401).body(Map.of("valid", false, "message", "Token inválido o expirado"));
+                Optional<User> userOptional = userAuthService.getUserByEmail(email);
+                if (userOptional.isPresent()) {
+                    return ResponseEntity.ok(Map.of(
+                        "valid", true,
+                        "email", email,
+                        "name", userOptional.get().getName() // ✅ Enviamos también el nombre
+                    ));
+                }
             }
+            return ResponseEntity.status(401).body(Map.of("valid", false, "message", "Token inválido o expirado"));
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("valid", false, "message", "Token no válido"));
         }
