@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF (para APIs REST)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login", "/api/users/register", "/api/users/users", "/auth/validate").permitAll() 
+                .requestMatchers("/auth/login", "/api/users/register", "/api/users/users", "/auth/validate", "/api/posts", "/api/posts", "api/posts/{id}").permitAll() 
                 .anyRequest().authenticated() 
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
