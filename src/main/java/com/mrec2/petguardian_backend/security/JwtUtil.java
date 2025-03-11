@@ -19,12 +19,12 @@ public class JwtUtil {
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
 
-    // Método para obtener la clave de firma
+    
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes()); // No usar Base64
     }
 
-    // Generar un token JWT
+    
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
@@ -34,28 +34,28 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Validar el token
+    
     public boolean validateToken(String token, String email) {
         String extractedEmail = extractEmail(token);
         return (extractedEmail.equals(email) && !isTokenExpired(token));
     }
 
-    // Extraer el email desde el token
+    
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extraer la fecha de expiración del token
+    
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Verificar si el token ha expirado
+    
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // Método genérico para extraer información del token
+   
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
